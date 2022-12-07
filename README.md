@@ -220,26 +220,9 @@ The new design results in two tables:
 - Table `parking_permit` has composite primary key `(email, garage)`.  
   - The `email` column is a foreign key into the `vehicle_owner` table.
 
-<table>
 
-<tr>
-<th>
-vehicle_owner
 
-primary key : email
-</th>
-<th>
-parking_permit 
-
-primary key : (email, garage)
-
-foreign key : email
-</th>
-</tr>
-
-<tr>
-<td>
-
+#### vehicle_owner table 
 
 | email      | style      | fee |
 |------------|------------|-----|
@@ -249,9 +232,8 @@ foreign key : email
 | lmn@co.com | truck      | 75  |
 | def@co.com | motorcycle | 25  |
 
-</td>
 
-<td>
+#### parking_permit table 
 
 | email      | garage  |
 |------------|---------|
@@ -264,11 +246,6 @@ foreign key : email
 | lmn@co.com | C       |
 | def@co.com | C       |
 
-</td>
-
-</tr>
-
-</table>
 
 - Table `vehicle_owner` is in 2NF since it is in 1NF and there are no partial dependencies (single column primary key)
 - Table `parking_permit` is in 2NF since it is in 1NF and there are no partial dependencies (no non-key attributes)
@@ -307,39 +284,30 @@ The new design results in an additional table `style_fee`:
 - Table `style_fee` has primary key `style` and non-key attribute `fee`.
 - Table `vehicle_owner` has primary key `email` and non-key attribute `style`. 
   - The `style` column is a foreign key into the `style_fee` table.
+- Table `parking_permit` has composite primary key `(email, garage)`.
+  - The `email` column is a foreign key into the `vehicle_owner` table.
 
-<table>
+#### style_fee table
 
-<tr>
-
-<th>
-parking_permit
-
-primary key : (email, garage)
-
-foreign key: email
-</th>
+| style      | fee |
+|------------|-----|
+| sedan      | 50  |
+| truck      | 75  |
+| motorcycle | 25  |
 
 
-<th>
-vehicle_owner
+#### vehicle_owner table
 
-primary key : email
-
-foreign key : style
-</th>
-<th>
-style_fee
-
-primary key : style
-</th>
+| email      | style      |
+|------------|------------|
+| abc@co.com | sedan      |
+| xyz@co.com | sedan      |
+| pqr@co.com | truck      |
+| lmn@co.com | truck      |
+| def@co.com | motorcycle |
 
 
-
-</tr>
-
-<tr>
-<td>
+#### parking_permit table
 
 | email      | garage  |
 |------------|---------|
@@ -352,40 +320,10 @@ primary key : style
 | lmn@co.com | C       |
 | def@co.com | C       |
 
-</td>
 
-
-<td>
-
-| email      | style      |
-|------------|------------|
-| abc@co.com | sedan      |
-| xyz@co.com | sedan      |
-| pqr@co.com | truck      |
-| lmn@co.com | truck      |
-| def@co.com | motorcycle |
-
-</td>
-
-<td>
-
-| style      | fee |
-|------------|-----|
-| sedan      | 50  |
-| truck      | 75  |
-| motorcycle | 25  |
-
-</td>
-
-
-
-</tr>
-
-</table>
-
-- Table `parking_permit` is in 3NF since it is in 2NF and there are no transitive dependencies (there are no non-key attributes)
-- Table `vehicle_owner` is in 3NF since it is in 2NF and there are no transitive dependencies (`style` is determined by primary key `email`)
-- Table `style_fee` is in 3NF since it is in 2NF and there are no transitive dependencies (`fee` is determined by primary key `style`)
+- Table `style_fee` is in 3NF since it is in 2NF and there are no transitive dependencies (`fee` is determined by primary key `style`)  
+- Table `vehicle_owner` is in 3NF since it is in 2NF and there are no transitive dependencies (`style` is determined by primary key `email`)  
+- Table `parking_permit` is in 3NF since it is in 2NF and there are no transitive dependencies (there are no non-key attributes)  
 
 The **Entity Relationship Diagram** below shows the final database design. Primary keys are displayed with bold font.
 
